@@ -20,7 +20,7 @@ import static android.widget.CompoundButton.*;
  * @Author: Bhy
  * @Date: 2018/11/1
  */
-public class CrimeFragmen extends Fragment {
+public class CrimeFragment extends Fragment {
     private Crime mCrime;
     private EditText mTitleFiled;
     private Button mDateButton;
