@@ -9,6 +9,9 @@ import android.support.v7.widget.RecyclerView ;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -33,10 +36,34 @@ public class CrimeListFragment extends Fragment{
         return view;
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder{
-        public CrimeHolder(LayoutInflater inflater,ViewGroup parent){
+    private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private TextView mTitleTextView;
+        private TextView mDateTextView;
+        private TextView mRequiresPoliceTextView;
+        private Crime mCrime;
+        public CrimeHolder(LayoutInflater inflater,ViewGroup parent,int viewType){
             super(inflater.inflate(R.layout.list_item_crime,parent,false));
+            mTitleTextView = itemView.findViewById(R.id.crime_title);
+            mDateTextView = itemView.findViewById(R.id.crime_date);
+            if(viewType==1){
+                mRequiresPoliceTextView = itemView.findViewById(R.id.police_requires);
+            }
+            itemView.setOnClickListener(this);
+        }
 
+        public void bind(Crime crime){
+            //每得到一个新的crime，将其显示在界面上。在adapter中调用此方法
+            mCrime = crime;
+            mTitleTextView.setText(mCrime.getTitle());
+            mDateTextView.setText(mCrime.getDate().toString());
+            if(mRequiresPoliceTextView!=null){
+                mRequiresPoliceTextView.setText("requires police!");
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(getActivity(),mCrime.getTitle()+"clicked!",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -51,12 +78,14 @@ public class CrimeListFragment extends Fragment{
         @Override
         public CrimeHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new CrimeHolder(layoutInflater,viewGroup);
+            return new CrimeHolder(layoutInflater,viewGroup,i);//i为viewType
         }
 
         @Override
         public void onBindViewHolder(@NonNull CrimeHolder crimeHolder, int i) {
-
+            //更新显示的内容
+            Crime crime = mCrimes.get(i);
+            crimeHolder.bind(crime);
         }
 
         @Override
@@ -64,7 +93,10 @@ public class CrimeListFragment extends Fragment{
             return mCrimes.size();
         }
 
-
+        @Override
+        public int getItemViewType(int position) {
+            return mCrimes.get(position).getRequiesPolice();
+        }
     }
 
     private void updateUI(){

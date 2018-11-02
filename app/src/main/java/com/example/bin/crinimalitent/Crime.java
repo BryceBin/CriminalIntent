@@ -12,10 +12,19 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSovled;
+    private int mRequiesPolice;
 
     public Crime(){
         mId = UUID.randomUUID();//产生随机唯一ID值
         mDate = new Date();
+    }
+
+    public int getRequiesPolice() {
+        return mRequiesPolice;
+    }
+
+    public void setRequiesPolice(int requiesPolice) {
+        mRequiesPolice = requiesPolice;
     }
 
     public UUID getId() {
