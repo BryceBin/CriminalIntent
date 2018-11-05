@@ -45,7 +45,7 @@ public class CrimeListFragment extends Fragment{
             super(inflater.inflate(R.layout.list_item_crime,parent,false));
             mTitleTextView = itemView.findViewById(R.id.crime_title);
             mDateTextView = itemView.findViewById(R.id.crime_date);
-            if(viewType==1){
+            if(viewType==1){//即Crime.mRequiresPolice=1，这时多一个TextView
                 mRequiresPoliceTextView = itemView.findViewById(R.id.police_requires);
             }
             itemView.setOnClickListener(this);
@@ -78,7 +78,7 @@ public class CrimeListFragment extends Fragment{
         @Override
         public CrimeHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new CrimeHolder(layoutInflater,viewGroup,i);//i为viewType
+            return new CrimeHolder(layoutInflater,viewGroup,i);//i为viewType,根据不同的viewType返回不同的界面
         }
 
         @Override
@@ -95,7 +95,8 @@ public class CrimeListFragment extends Fragment{
 
         @Override
         public int getItemViewType(int position) {
-            return mCrimes.get(position).getRequiesPolice();
+            //根据Crime中的mRequiresPolice变量返回不同的viewType
+            return mCrimes.get(position).getRequiresPolice();
         }
     }
 
